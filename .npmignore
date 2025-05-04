@@ -1,0 +1,26 @@
+# Development files
+node_modules/
+example/
+src/
+.github/
+
+# Test files
+__tests__/
+*.test.*
+*.spec.*
+vitest.config.*
+vitest.setup.ts
+coverage/
+
+# Configuration files
+tsconfig.json
+.eslintrc*
+.prettierrc*
+
+# Git files
+.git/
+.gitignore
+
+# Misc
+.DS_Store
+*.log
