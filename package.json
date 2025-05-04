@@ -6,9 +6,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "vitest run", 
+    "test": "vitest run",
     "test:watch": "vitest",
-    "test:ui": "vitest --ui", 
+    "test:ui": "vitest --ui",
     "coverage": "vitest run --coverage",
     "prepublishOnly": "npm run build"
   },
@@ -22,7 +22,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/n0n3br/react-use-state-with-history.git"
+    "url": "https://github.com/rogeriolaa/react-use-state-with-history.git"
   },
   "publishConfig": {
     "access": "public"
@@ -37,8 +37,8 @@
     "typescript": "^5.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "vitest": "^1.0.0", 
+    "vitest": "^1.0.0",
     "@vitest/ui": "^1.0.0",
-    "jsdom": "^24.0.0" 
+    "jsdom": "^24.0.0"
   }
 }
