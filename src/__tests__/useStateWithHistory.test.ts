@@ -1,14 +1,14 @@
-import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect } from 'vitest'; // Import from vitest
-import { useStateWithHistory } from '../index';
+import { renderHook, act } from "@testing-library/react";
+import { describe, it, expect } from "vitest"; // Import from vitest
+import { useStateWithHistory } from "../index";
 
-describe('useStateWithHistory', () => {
-  it('should initialize with the correct value', () => {
+describe("useStateWithHistory", () => {
+  it("should initialize with the correct value", () => {
     const { result } = renderHook(() => useStateWithHistory<number>(0));
     expect(result.current[0]).toBe(0);
   });
 
-  it('should update value and store history', () => {
+  it("should update value and store history", () => {
     const { result } = renderHook(() => useStateWithHistory<number>(0));
 
     act(() => {
@@ -172,6 +172,82 @@ describe('useStateWithHistory', () => {
       result.current[2].first();
     });
     expect(result.current[0]).toBe(0);
+    expect(result.current[2].pointer).toBe(0);
+  });
+
+  it("should clear history", () => {
+    const { result } = renderHook(() => useStateWithHistory<number>(0));
+
+    act(() => {
+      result.current[1](1);
+      result.current[1](2);
+      result.current[2].clear();
+    });
+
+    expect(result.current[0]).toBe(2); // Current state should remain
+    expect(result.current[2].history).toEqual([2]);
+    expect(result.current[2].pointer).toBe(0);
+  });
+
+  it("should trim start of history", () => {
+    const { result } = renderHook(() => useStateWithHistory<number>(0));
+
+    act(() => {
+      result.current[1](1);
+      result.current[1](2); // pointer is 2, history is [0, 1, 2]
+      result.current[1](3); // pointer is 3, history is [0, 1, 2, 3]
+      result.current[2].back(); // pointer is 2, state is 2
+      result.current[2].trimStart();
+    });
+
+    expect(result.current[0]).toBe(2);
+    expect(result.current[2].history).toEqual([2, 3]);
+    expect(result.current[2].pointer).toBe(0);
+  });
+
+  it("should trim end of history", () => {
+    const { result } = renderHook(() => useStateWithHistory<number>(0));
+
+    act(() => {
+      result.current[1](1);
+      result.current[1](2);
+      result.current[1](3); // pointer is 3, history is [0, 1, 2, 3]
+      result.current[2].go(1); // pointer is 1, state is 1
+      result.current[2].trimEnd();
+    });
+
+    expect(result.current[0]).toBe(1);
+    expect(result.current[2].history).toEqual([0, 1]);
+    expect(result.current[2].pointer).toBe(1);
+  });
+
+  it("should not change state if no past/future to clear", () => {
+    const { result } = renderHook(() => useStateWithHistory<number>(0));
+
+    act(() => {
+      result.current[1](1);
+      result.current[1](2);
+    });
+
+    // No future to clear (already at last state)
+    act(() => {
+      result.current[2].trimEnd();
+    });
+    expect(result.current[0]).toBe(2);
+    expect(result.current[2].history).toEqual([0, 1, 2]);
+    expect(result.current[2].pointer).toBe(2);
+
+    // Go to first state
+    act(() => {
+      result.current[2].first();
+    });
+
+    // No past to clear (already at first state)
+    act(() => {
+      result.current[2].trimStart();
+    });
+    expect(result.current[0]).toBe(0);
+    expect(result.current[2].history).toEqual([0, 1, 2]);
     expect(result.current[2].pointer).toBe(0);
   });
 });

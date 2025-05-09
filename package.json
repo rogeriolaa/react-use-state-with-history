@@ -1,6 +1,6 @@
 {
   "name": "@n0n3br/react-use-state-with-history",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A React hook that implements useState with history tracking capabilities",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -12,6 +12,7 @@ A custom React hook that enhances the standard `useState` hook by providing hist
 - Provides functions to navigate back (`back`) and forward (`forward`) through the history
 - Provides functions to jump directly to the first (`first`) and last (`last`) state in history
 - Provides a function to jump to a specific index (`go`) in the history
+- Provides functions to clear history: `clear` (clears all history, keeping current state), `trimStart` (clears history before current pointer), and `trimEnd` (clears history after current pointer)
 - Exposes the complete history array and the current pointer position
 - Works with any data type (numbers, strings, objects, arrays, etc.)
 - Written in TypeScript for type safety
@@ -51,8 +52,22 @@ function Counter() {
 import { useStateWithHistory } from "@n0n3br/react-use-state-with-history";
 
 function TextEditor() {
-  const [text, setText, { history, pointer, back, forward, go, first, last }] =
-    useStateWithHistory("");
+  const [
+    text,
+    setText,
+    {
+      history,
+      pointer,
+      back,
+      forward,
+      go,
+      first,
+      last,
+      clear,
+      trimStart,
+      trimEnd,
+    },
+  ] = useStateWithHistory("");
 
   return (
     <div>
@@ -75,6 +90,15 @@ function TextEditor() {
         </button>
         <button onClick={last} disabled={pointer === history.length - 1}>
           Latest Version
+        </button>
+        <button onClick={clear} disabled={history.length <= 1}>
+          Clear History
+        </button>
+        <button onClick={trimStart} disabled={pointer === 0}>
+          Trim Start
+        </button>
+        <button onClick={trimEnd} disabled={pointer === history.length - 1}>
+          Trim End
         </button>
       </div>
 
@@ -119,6 +143,9 @@ function useStateWithHistory<T>(initialValue: T): [
     go: (index: number) => void;
     first: () => void;
     last: () => void;
+    clear: () => void;
+    trimStart: () => void;
+    trimEnd: () => void;
   }
 ];
 ```
@@ -143,6 +170,9 @@ Returns a tuple with three elements:
    - `go: (index: number) => void` - Jump to a specific index in history
    - `first: () => void` - Jump to the first state in history
    - `last: () => void` - Jump to the most recent state in history
+   - `clear: () => void` - Clears all history, keeping only the current state as the initial state. The pointer is reset to 0.
+   - `trimStart: () => void` - Clears all history entries before the current pointer. The current state becomes the first state in the new history, and the pointer is reset to 0.
+   - `trimEnd: () => void` - Clears all history entries after the current pointer. The pointer remains at its current position, which is now the last entry in the history.
 
 ## Working with Complex Types
 

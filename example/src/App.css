@@ -39,7 +39,8 @@ h1 {
   color: #495057;
 }
 
-.controls, .navigation {
+.controls,
+.navigation {
   margin-top: 25px;
   display: flex;
   justify-content: center;
@@ -65,4 +66,150 @@ button:hover:not(:disabled) {
 button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
+}
+
+.all-controls-container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column; /* Stack groups vertically */
+  gap: 20px; /* Space between control groups */
+}
+
+.controls-group {
+  background-color: #f9f9f9; /* Light background for each group */
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.controls-group h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.3em;
+  color: #333;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.controls,
+.navigation,
+.clear-controls {
+  margin-top: 0; /* Reset margin as it's handled by controls-group gap */
+  display: flex;
+  justify-content: flex-start; /* Align buttons to the start */
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Adjustments for responsive design if .all-controls-container is used */
+@media (max-width: 600px) {
+  .all-controls-container {
+    gap: 15px; /* Slightly less gap on smaller screens */
+  }
+
+  .controls-group h2 {
+    font-size: 1.2em;
+  }
+
+  .controls,
+  .navigation,
+  .clear-controls {
+    flex-direction: row; /* Keep buttons in a row if space allows, wrap if not */
+    /* If stacking is preferred on small screens for these inner button groups, change to column */
+  }
+}
+
+/* New styles for the UserForm example */
+.user-form-container {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 450px;
+  margin: 30px auto;
+  text-align: left;
+}
+
+.user-form-container h1 {
+  color: #2c3e50;
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 1.8em;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #34495e;
+  font-weight: bold;
+  font-size: 0.95em;
+}
+
+.form-field input[type="text"],
+.form-field input[type="email"],
+.form-field input[type="number"] {
+  width: calc(100% - 22px); /* Adjust width to account for padding and border */
+  padding: 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 6px;
+  font-size: 1em;
+  color: #2c3e50;
+  transition: border-color 0.3s ease;
+}
+
+.form-field input[type="text"]:focus,
+.form-field input[type="email"]:focus,
+.form-field input[type="number"]:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.form-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-around; /* Spreads out buttons */
+  gap: 15px;
+}
+
+.button-secondary {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.button-secondary:hover:not(:disabled) {
+  background-color: #7f8c8d;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  .container,
+  .user-form-container {
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  .controls,
+  .navigation,
+  .clear-controls, /* Add clear-controls to this rule */
+  .form-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  button,
+  .button-secondary {
+    width: 100%; /* Full width buttons on small screens */
+  }
+
+  .form-field input[type="text"],
+  .form-field input[type="email"],
+  .form-field input[type="number"] {
+    width: calc(100% - 24px); /* Ensure padding doesn't cause overflow */
+  }
 }
